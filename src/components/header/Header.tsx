@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import s from './Header.module.scss';
 import clsx from 'clsx';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
@@ -98,8 +98,23 @@ export const Header = React.memo(() => {
     const [open, setOpen] = useState(false);
     const [currentPage, setCurrentPage] = useState<PagesType>('profile')
 
-    const handleDrawerOpen = useCallback(() => setOpen(true), [])
-    const handleDrawerClose = useCallback(() => setOpen(false), [])
+    useEffect(() => {
+        let openValue = localStorage.getItem('navBar')
+        if (openValue) {
+            let newOpenValue = JSON.parse(openValue)
+            setOpen(newOpenValue)
+        }
+    }, [])
+
+    const handleDrawerOpen = useCallback(() => {
+        setOpen(true)
+        localStorage.setItem('navBar', JSON.stringify(true))
+    }, [])
+
+    const handleDrawerClose = useCallback(() => {
+        setOpen(false)
+        localStorage.setItem('navBar', JSON.stringify(false))
+    }, [])
 
     const navigateTo = useCallback((page: PagesType) => () => {
         navigate(page)
@@ -174,7 +189,7 @@ export const Header = React.memo(() => {
                         </ListItemIcon>
                         <ListItemText primary={'Users'}/>
                     </ListItem>
-                    <ListItem button>
+                    <ListItem button onClick={navigateTo('settings')}>
                         <ListItemIcon>
                             <SettingsIcon fontSize={'large'}/>
                         </ListItemIcon>
