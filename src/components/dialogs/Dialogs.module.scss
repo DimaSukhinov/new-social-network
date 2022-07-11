@@ -1,3 +1,73 @@
 .dialogs {
+  display: flex;
   margin: 90px 25px;
+  background-color: #edeef0;
+  border-radius: 4px;
+
+  .dialogs__users {
+    border-radius: 4px;
+    min-height: 550px;
+
+    .messages__close {
+      display: flex;
+      align-items: center;
+
+      .close {
+        display: flex;
+        align-items: center;
+        margin: 10px;
+      }
+    }
+
+    .users__container {
+      display: flex;
+      flex-direction: column;
+      padding: 10px 15px;
+
+      &:hover {
+        background-color: #f5f6f8;
+      }
+
+      &:not(:last-child) {
+        border-bottom: 1px solid #909091;
+      }
+
+      .user {
+        display: flex;
+        align-items: center;
+
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+
+        & img {
+          width: 50px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        .user__name {
+          font-size: 16px;
+          font-weight: 400;
+        }
+      }
+    }
+  }
+
+  .dialogs__messages {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px;
+    border-left: 1px solid #909091;
+
+    .messages {
+
+    }
+
+    .profile__newMessage {
+      display: flex;
+      align-items: center;
+    }
+  }
 }

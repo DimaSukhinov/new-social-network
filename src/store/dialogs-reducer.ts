@@ -8,7 +8,7 @@ const initialState: InitialStateType = {
     dialogs: [
         {
             userId: firstUserId,
-            name: 'Andrew Follentass',
+            name: 'Andrew Sherbin',
         },
         {
             userId: secondUserId,
@@ -16,7 +16,7 @@ const initialState: InitialStateType = {
         },
         {
             userId: thirdUserId,
-            name: 'Dmitriy Recrent',
+            name: 'Maksim Ishchanka',
         },
     ],
     messages: [
@@ -50,17 +50,21 @@ const initialState: InitialStateType = {
 
 export const dialogsReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
-
+        case 'SEND-MESSAGE':
+            return {
+                ...state,
+                messages: [...state.messages, {userId: action.userId, messageId: v1(), message: action.message}]
+            }
         default:
             return state
     }
 }
 
-export const addPostAC = () => {
-    return {type: 'ADD-POST',} as const
+export const sendMessageAC = (userId: string, message: string) => {
+    return {type: 'SEND-MESSAGE', userId, message} as const
 }
 
-type ActionsType = ReturnType<typeof addPostAC>
+type ActionsType = ReturnType<typeof sendMessageAC>
 
 export type InitialStateType = {
     dialogs: DialogsType[]
