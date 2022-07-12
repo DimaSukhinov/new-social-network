@@ -1,4 +1,5 @@
 import {v1} from 'uuid';
+import {isDisabled} from '@testing-library/user-event/dist/utils';
 
 let firstUserId = v1()
 let secondUserId = v1()
@@ -9,14 +10,17 @@ const initialState: InitialStateType = {
         {
             userId: firstUserId,
             name: 'Andrew Sherbin',
+            isDisabled: false,
         },
         {
             userId: secondUserId,
             name: 'Aleksandr Kostyliev',
+            isDisabled: false,
         },
         {
             userId: thirdUserId,
             name: 'Maksim Ishchanka',
+            isDisabled: false,
         },
     ],
     messages: [
@@ -86,6 +90,16 @@ export const dialogsReducer = (state: InitialStateType = initialState, action: A
                 ...state,
                 messages: state.messages.filter(m => !m.isSelected)
             }
+        case 'DISABLE-DIALOG':
+            return {
+                ...state,
+                dialogs: state.dialogs.map(d => d.userId === action.userId ? {...d, isDisabled: !d.isDisabled} : d)
+            }
+        case 'DELETE-DIALOG':
+            return {
+                dialogs: state.dialogs.filter(d => d.userId !== action.userId),
+                messages: state.messages.filter(m => m.userId !== action.userId)
+            }
         default:
             return state
     }
@@ -103,12 +117,20 @@ export const unselectMessageToDeleteAC = (messageId: string) => {
 export const deleteMessageAC = () => {
     return {type: 'DELETE-MESSAGE'} as const
 }
+export const disableDialogAC = (userId: string) => {
+    return {type: 'DISABLE-DIALOG', userId} as const
+}
+export const deleteDialogAC = (userId: string) => {
+    return {type: 'DELETE-DIALOG', userId} as const
+}
 
 type ActionsType =
     ReturnType<typeof sendMessageAC>
     | ReturnType<typeof selectMessageToDeleteAC>
     | ReturnType<typeof unselectMessageToDeleteAC>
     | ReturnType<typeof deleteMessageAC>
+    | ReturnType<typeof disableDialogAC>
+    | ReturnType<typeof deleteDialogAC>
 
 export type InitialStateType = {
     dialogs: DialogsType[]
@@ -118,6 +140,7 @@ export type InitialStateType = {
 type DialogsType = {
     userId: string
     name: string
+    isDisabled: boolean
 }
 type MessagesType = {
     userId: string

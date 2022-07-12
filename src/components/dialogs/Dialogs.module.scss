@@ -14,6 +14,7 @@
       display: flex;
       flex-direction: column;
       padding: 10px 15px;
+      cursor: pointer;
 
       &:hover {
         background-color: #f5f6f8;
@@ -50,47 +51,15 @@
     flex-direction: column;
     justify-content: space-between;
     border-left: 1px solid #909091;
-
-    .messages__menu {
-      height: 57px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #909091;
-      padding: 0 10px;
-      position: relative;
-
-      .messages__delete {
-        display: flex;
-        align-items: center;
-        margin-left: 410px;
-      }
-
-      .close {
-        display: flex;
-        align-items: center;
-      }
-
-      .menu__openMore {
-        z-index: 1000;
-        position: absolute;
-        top: 50px;
-        right: 2px;
-        width: 50px;
-        height: 50px;
-        border: 1px solid #909091;
-        background-color: #edeef0;
-        border-radius: 4px;
-      }
-    }
+    max-width: 466px;
 
     .messages__container {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 10px;
 
       .messages {
+        cursor: pointer;
 
         .message {
           margin: 30px;
@@ -106,6 +75,24 @@
     .profile__newMessage {
       display: flex;
       align-items: center;
+      cursor: pointer;
+      border-top: 1px solid #909091;
+
+      .newMessage {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+      }
+
+      .blocked {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+
+        & span {
+          margin-left: 10px;
+        }
+      }
     }
   }
 }

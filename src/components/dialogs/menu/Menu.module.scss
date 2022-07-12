@@ -1,0 +1,57 @@
+.messages__menu {
+  height: 57px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #909091;
+  padding: 0 10px;
+  position: relative;
+
+  .messages__search {
+    display: flex;
+    align-items: center;
+
+    .search__input {
+      width: 300px;
+      margin-right: 60px;
+    }
+  }
+
+  .messages__delete {
+    display: flex;
+    align-items: center;
+    margin-left: 410px;
+  }
+
+  .close {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .menu__openMore {
+    z-index: 1000;
+    position: absolute;
+    top: 50px;
+    right: 0;
+    padding: 5px 0;
+    border: 1px solid #909091;
+    background-color: #edeef0;
+    border-radius: 4px;
+
+    .openMore__item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 8px;
+
+      &:hover {
+        background-color: #f5f6f8;
+      }
+
+      & span {
+        margin-left: 10px;
+      }
+    }
+  }
+}

@@ -5,16 +5,12 @@ import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../store/store';
 import {TextField} from '@material-ui/core';
 import SendIcon from '@material-ui/icons/Send';
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import SearchIcon from '@material-ui/icons/Search';
 import {
-    deleteMessageAC,
     selectMessageToDeleteAC,
     sendMessageAC, unselectMessageToDeleteAC,
 } from '../../store/dialogs-reducer';
+import {Menu} from './menu/Menu';
+import BlockIcon from '@material-ui/icons/Block';
 
 export const Dialogs = React.memo(() => {
 
@@ -24,16 +20,18 @@ export const Dialogs = React.memo(() => {
     const [currentUser, setCurrentUser] = useState<string>('')
     const [messageText, setMessageText] = useState<string>('')
     const [searchUser, setSearchUser] = useState<string>('')
+    const [searchMessage, setSearchMessage] = useState<string>('')
     const [selectedMessages, setSelectedMessages] = useState<number>(0)
     const [openMore, setOpenMore] = useState<boolean>(false)
+    const [searchMessageMode, setSearchMessageMode] = useState<boolean>(false)
 
     const openMessages = useCallback((userId: string) => () => {
         setCurrentUser(userId)
         setSelectedMessages(0)
         setOpenMore(false)
+        setSearchMessageMode(false)
+        setSearchMessage('')
     }, [])
-
-    const closeMessages = useCallback(() => setCurrentUser(''), [])
 
     const onMessageTextHandler = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setMessageText(e.currentTarget.value)
@@ -41,6 +39,7 @@ export const Dialogs = React.memo(() => {
     }, [])
 
     const changeSearchUserHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => setSearchUser(e.currentTarget.value), [])
+    const changeSearchMessageHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => setSearchMessage(e.currentTarget.value), [])
 
     const sendMessage = useCallback(() => {
         if (messageText.trim() !== '') {
@@ -60,16 +59,14 @@ export const Dialogs = React.memo(() => {
         setSelectedMessages(selectedMessages - 1)
     }, [dispatch, selectedMessages])
 
-    const deleteMessage = useCallback(() => {
-        dispatch(deleteMessageAC())
-        setSelectedMessages(0)
-    }, [dispatch])
-
-    const openMoreModal = useCallback(() => setOpenMore(!openMore), [openMore])
-
     let filteredUsers = dialogs.dialogs
     if (searchUser) {
         filteredUsers = dialogs.dialogs.filter(d => d.name.toLowerCase().includes(searchUser.toLowerCase()))
+    }
+
+    let filteredMessages = dialogs.messages
+    if (searchMessage) {
+        filteredMessages = dialogs.messages.filter(m => m.message.toLowerCase().includes(searchMessage.toLowerCase()))
     }
 
     return (
@@ -92,28 +89,16 @@ export const Dialogs = React.memo(() => {
             </div>
             {
                 currentUser !== '' && <div className={s.dialogs__messages}>
-                    <div className={s.messages__menu}>
-                        {
-                            selectedMessages > 0 ? <div className={s.messages__delete}>
-                                    <DeleteForeverIcon onClick={deleteMessage}/>
-                                </div>
-                                : dialogs.dialogs.map(d => d.userId === currentUser && <>
-                                    <div className={s.close} onClick={closeMessages}>
-                                        <ArrowBackIosIcon fontSize={'small'}/>
-                                        <span>Close</span>
-                                    </div>
-                                    <h3>{d.name}</h3>
-                                    <MoreHorizIcon onClick={openMoreModal}/>
-                                    {openMore && <div className={s.menu__openMore}>
-
-                                    </div>}
-                                </>)
-                        }
-                    </div>
+                    <Menu selectedMessages={selectedMessages} setCurrentUser={setCurrentUser} setOpenMore={setOpenMore}
+                          currentUser={currentUser} openMore={openMore} setSelectedMessages={setSelectedMessages}
+                          searchMessageMode={searchMessageMode} setSearchMessageMode={setSearchMessageMode}
+                          changeSearchMessageHandler={changeSearchMessageHandler} searchMessage={searchMessage}
+                          setSearchMessage={setSearchMessage}
+                    />
                     <div className={s.messages__container}>
                         <div className={s.messages}>
                             {
-                                dialogs.messages.map(m => m.userId === currentUser &&
+                                filteredMessages.map(m => m.userId === currentUser &&
                                     <div className={m.isSelected ? s.message__selected : s.message}
                                          onClick={m.isSelected ? unselectMessageForDelete(m.messageId) : selectMessageForDelete(m.messageId)}>
                                         {m.message}
@@ -121,9 +106,19 @@ export const Dialogs = React.memo(() => {
                             }
                         </div>
                         <div className={s.profile__newMessage}>
-                            <TextField id="outlined-basic" label="Write a message" variant="outlined"
-                                       style={{width: '400px'}} value={messageText} onChange={onMessageTextHandler}/>
-                            <SendIcon onClick={sendMessage} fontSize={'large'} style={{marginLeft: '10px'}}/>
+                            {dialogs.dialogs.map(d => d.userId === currentUser && d.isDisabled &&
+                                <div className={s.blocked}>
+                                    <BlockIcon fontSize={'large'} style={{color: 'red'}}/>
+                                    <span>You have added this user to the blacklist. To write to him, you need to remove
+                                        him from your black list.</span>
+                                </div>)}
+                            {dialogs.dialogs.map(d => d.userId === currentUser && !d.isDisabled &&
+                                <div className={s.newMessage}>
+                                    <TextField id="outlined-basic" label="Write a message" variant="outlined"
+                                               style={{width: '400px'}} value={messageText}
+                                               onChange={onMessageTextHandler}/>
+                                    <SendIcon onClick={sendMessage} fontSize={'large'} style={{marginLeft: '10px'}}/>
+                                </div>)}
                         </div>
                     </div>
                 </div>
