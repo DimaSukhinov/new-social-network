@@ -5,13 +5,15 @@ import {Button, TextField} from '@material-ui/core';
 import {useAppSelector} from '../../store/store';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import {useDispatch} from 'react-redux';
-import {addPostAC, dislikeAPostAC, likeAPostAC} from '../../store/posts-reducer';
+import {addPostAC, dislikeAPostAC, likeAPostAC} from '../../store/profile-reducer';
 
 export const Profile = React.memo(() => {
 
     const dispatch = useDispatch()
-    const posts = useAppSelector((store) => store.posts)
+    const posts = useAppSelector((store) => store.profile)
     const [postText, setPostText] = useState<string>('')
+    const [openPhotoLoader, setOpenPhotoLoader] = useState<boolean>(false)
+    const [photo, setPhoto] = useState<any>(avatar)
 
     const onPostTextHandler = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setPostText(e.currentTarget.value)
@@ -27,10 +29,30 @@ export const Profile = React.memo(() => {
     const likeAPost = useCallback((id: string) => () => dispatch(likeAPostAC(id)), [dispatch])
     const dislikeAPost = useCallback((id: string) => () => dispatch(dislikeAPostAC(id)), [dispatch])
 
+    const openPhotoLoaderModal = useCallback( () => setOpenPhotoLoader(true), [])
+    const closePhotoLoaderModal = useCallback( () => setOpenPhotoLoader(false), [])
+
+    const savePhoto = useCallback((file: any) => {
+        let reader = new FileReader()
+        reader.readAsDataURL(file)
+        reader.onload = (() => {
+            setPhoto(reader.result)
+            console.log(photo)
+        })
+    }, [photo])
+
+    const onAvatarChange = useCallback((e: any) => savePhoto(e.target.files[0]), [savePhoto])
+
     return (
         <div className={s.profile}>
             <div className={s.profile__avatar}>
-                <img src={avatar} alt="avatar"/>
+                <img src={photo} alt="avatar"/>
+                <span onClick={openPhotoLoader ? closePhotoLoaderModal : openPhotoLoaderModal}>Upload a photo</span>
+                {
+                    openPhotoLoader && <div className={s.avatar__loader}>
+                        <input type="file" onChange={onAvatarChange}/>
+                    </div>
+                }
             </div>
             <div>
                 <div className={s.profile__description}>
@@ -44,7 +66,7 @@ export const Profile = React.memo(() => {
                 </div>
                 <div className={s.profile__posts}>
                     {
-                        posts.map(p => <div className={s.posts__post}>
+                        posts.posts.map(p => <div className={s.posts__post}>
                             <div className={s.post__avatar}>
                                 <img src={avatar} alt="avatar"/>
                             </div>
@@ -52,8 +74,10 @@ export const Profile = React.memo(() => {
                                 <h1 className={s.post__text}>{p.text}</h1>
                                 <div className={s.post__likes}>
                                     {
-                                        p.likedByMe ? <FavoriteIcon onClick={dislikeAPost(p.id)} style={{color: '#ff3347', marginRight: '4px'}}/> :
-                                            <FavoriteIcon onClick={likeAPost(p.id)} style={{color: '#909091', marginRight: '4px'}}/>
+                                        p.likedByMe ? <FavoriteIcon onClick={dislikeAPost(p.id)}
+                                                                    style={{color: '#ff3347', marginRight: '4px'}}/> :
+                                            <FavoriteIcon onClick={likeAPost(p.id)}
+                                                          style={{color: '#909091', marginRight: '4px'}}/>
                                     }
                                     {p.likesCount}
                                 </div>

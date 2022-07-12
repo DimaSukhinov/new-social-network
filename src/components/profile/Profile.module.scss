@@ -1,13 +1,40 @@
 .profile {
   display: flex;
   margin: 90px 20px;
+  z-index: 100;
 
   .profile__avatar {
-    width: 230px;
-    height: 230px;
+    width: 250px;
+    height: 250px;
     border-radius: 4px;
     background-color: #edeef0;
-    padding: 15px 15px;
+    padding: 25px 25px;
+    position: relative;
+
+    & img {
+      width: 200px;
+      height: 200px;
+    }
+
+    & span {
+      margin-left: 50px;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .avatar__loader {
+      z-index: 1000;
+      position: absolute;
+      left: -4px;
+      top: 260px;
+      padding: 5px 0 5px 5px;
+      border: 1px solid #909091;
+      background-color: #edeef0;
+      border-radius: 4px;
+    }
   }
 
   .profile__description {

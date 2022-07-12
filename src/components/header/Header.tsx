@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-type PagesType = 'profile' | 'dialogs' | 'users' | 'photo' | 'settings'
+type PagesType = 'profile' | 'dialogs' | 'friends' | 'photo' | 'settings'
 
 export const Header = React.memo(() => {
 
@@ -184,11 +184,11 @@ export const Header = React.memo(() => {
                         </ListItemIcon>
                         <ListItemText primary={'Dialogs'}/>
                     </ListItem>
-                    <ListItem button onClick={navigateTo('users')}>
+                    <ListItem button onClick={navigateTo('friends')}>
                         <ListItemIcon>
                             <GroupIcon fontSize={'large'}/>
                         </ListItemIcon>
-                        <ListItemText primary={'Users'}/>
+                        <ListItemText primary={'Friends'}/>
                     </ListItem>
                     <ListItem button onClick={navigateTo('photo')}>
                         <ListItemIcon>

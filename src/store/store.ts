@@ -1,11 +1,13 @@
 import {combineReducers, createStore} from 'redux'
 import {TypedUseSelectorHook, useSelector} from 'react-redux'
-import {postsReducer} from './posts-reducer';
+import {profileReducer} from './profile-reducer';
 import {dialogsReducer} from './dialogs-reducer';
+import {friendsReducer} from './friends-reducer';
 
 const rootReducer = combineReducers({
-    posts: postsReducer,
+    profile: profileReducer,
     dialogs: dialogsReducer,
+    friends: friendsReducer,
 })
 
 export const store = createStore(rootReducer)

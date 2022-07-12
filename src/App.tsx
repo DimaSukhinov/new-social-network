@@ -4,7 +4,7 @@ import {Routes, Navigate, Route} from 'react-router-dom'
 import {Header} from './components/header/Header';
 import {Profile} from './components/profile/Profile';
 import {Dialogs} from './components/dialogs/Dialogs';
-import {Users} from './components/users/Users';
+import {Friends} from './components/friends/Friends';
 import {Settings} from './components/settings/Settings';
 
 export const App = () => {
@@ -15,7 +15,7 @@ export const App = () => {
                 <Route path={'/'} element={<Navigate to={'/profile'}/>}/>
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/dialogs'} element={<Dialogs/>}/>
-                <Route path={'/users'} element={<Users/>}/>
+                <Route path={'/friends'} element={<Friends/>}/>
                 <Route path={'/settings'} element={<Settings/>}/>
                 <Route path={'/*'} element={<div>404</div>}/>
             </Routes>

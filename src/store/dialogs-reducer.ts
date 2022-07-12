@@ -1,9 +1,7 @@
 import {v1} from 'uuid';
-import {isDisabled} from '@testing-library/user-event/dist/utils';
+import {firstUserId, secondUserId, thirdUserId} from './friends-reducer';
 
-let firstUserId = v1()
-let secondUserId = v1()
-let thirdUserId = v1()
+
 
 const initialState: InitialStateType = {
     dialogs: [
