@@ -2,22 +2,18 @@ import {v1} from 'uuid';
 import {firstUserId, secondUserId, thirdUserId} from './friends-reducer';
 
 
-
 const initialState: InitialStateType = {
     dialogs: [
         {
             userId: firstUserId,
-            name: 'Andrew Sherbin',
             isDisabled: false,
         },
         {
             userId: secondUserId,
-            name: 'Aleksandr Kostyliev',
             isDisabled: false,
         },
         {
             userId: thirdUserId,
-            name: 'Maksim Ishchanka',
             isDisabled: false,
         },
     ],
@@ -137,7 +133,6 @@ export type InitialStateType = {
 
 type DialogsType = {
     userId: string
-    name: string
     isDisabled: boolean
 }
 type MessagesType = {

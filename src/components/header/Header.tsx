@@ -21,6 +21,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import GroupIcon from '@material-ui/icons/Group';
 import SettingsIcon from '@material-ui/icons/Settings';
 import PhotoIcon from '@material-ui/icons/Photo';
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import {useNavigate} from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -88,7 +89,7 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-type PagesType = 'profile' | 'dialogs' | 'friends' | 'photo' | 'settings'
+type PagesType = 'profile' | 'dialogs' | 'friends' | 'groups' | 'photo' | 'settings'
 
 export const Header = React.memo(() => {
 
@@ -186,9 +187,15 @@ export const Header = React.memo(() => {
                     </ListItem>
                     <ListItem button onClick={navigateTo('friends')}>
                         <ListItemIcon>
-                            <GroupIcon fontSize={'large'}/>
+                            <GroupAddIcon fontSize={'large'}/>
                         </ListItemIcon>
                         <ListItemText primary={'Friends'}/>
+                    </ListItem>
+                    <ListItem button onClick={navigateTo('groups')}>
+                        <ListItemIcon>
+                            <GroupIcon fontSize={'large'}/>
+                        </ListItemIcon>
+                        <ListItemText primary={'Groups'}/>
                     </ListItem>
                     <ListItem button onClick={navigateTo('photo')}>
                         <ListItemIcon>

@@ -3,6 +3,7 @@ import s from './Friends.module.scss';
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../store/store';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import {PossibleFriends} from './possibleFriends/PossibleFriends';
 
 export const Friends = React.memo(() => {
 
@@ -24,21 +25,7 @@ export const Friends = React.memo(() => {
                 </div>)}
             </div>
             <div>
-                <div className={s.possible__friends}>
-                    <h3 className={s.possibleFriends__title}>Possible friends</h3>
-                    {friends.map(f => !f.isFriend && <div className={s.possible__friend}>
-                        <div className={s.possibleFriend__about}>
-                            <img src={f.img} alt="avatar"/>
-                            <div className={s.about__possibleFriend}>
-                                <h3>{f.name}</h3>
-                                <span>{f.location}</span>
-                            </div>
-                        </div>
-                        <div className={s.add}>
-                            + Add as friend
-                        </div>
-                    </div>)}
-                </div>
+                <PossibleFriends/>
             </div>
         </div>
     );

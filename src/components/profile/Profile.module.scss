@@ -70,28 +70,55 @@
     background-color: #edeef0;
     border-radius: 4px;
     margin: 20px 0 0 20px;
+    position: relative;
 
     .posts__post {
       display: flex;
+      justify-content: space-between;
       padding: 10px;
 
-      .post__avatar img {
-        width: 50px;
-        border-radius: 50%;
-      }
+      .post__container {
+        display: flex;
 
-      .post__post {
-        margin-left: 10px;
-
-        .post__text {
-          font-size: 19px;
-          font-weight: 400;
+        .post__avatar img {
+          width: 50px;
+          border-radius: 50%;
         }
 
-        .post__likes {
-          display: flex;
-          align-items: center;
-          font-size: 17px;
+        .post {
+          margin-left: 10px;
+
+          .post__text {
+            font-size: 19px;
+            font-weight: 400;
+          }
+
+          .post__likes {
+            display: flex;
+            align-items: center;
+            font-size: 17px;
+          }
+        }
+      }
+    }
+
+    .openMore {
+      z-index: 1000;
+      position: absolute;
+      right: -110px;
+      padding: 5px 0;
+      border: 1px solid #909091;
+      background-color: #fff;
+      border-radius: 4px;
+
+      .openMore__item {
+        display: flex;
+        align-items: center;
+        padding: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f5f6f8;
         }
       }
     }

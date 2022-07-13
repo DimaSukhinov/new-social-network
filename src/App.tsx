@@ -6,6 +6,7 @@ import {Profile} from './components/profile/Profile';
 import {Dialogs} from './components/dialogs/Dialogs';
 import {Friends} from './components/friends/Friends';
 import {Settings} from './components/settings/Settings';
+import {Photo} from './components/photo/Photo';
 
 export const App = () => {
     return (
@@ -16,6 +17,7 @@ export const App = () => {
                 <Route path={'/profile'} element={<Profile/>}/>
                 <Route path={'/dialogs'} element={<Dialogs/>}/>
                 <Route path={'/friends'} element={<Friends/>}/>
+                <Route path={'/photo'} element={<Photo/>}/>
                 <Route path={'/settings'} element={<Settings/>}/>
                 <Route path={'/*'} element={<div>404</div>}/>
             </Routes>

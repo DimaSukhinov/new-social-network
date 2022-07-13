@@ -10,6 +10,7 @@ import {useAppSelector} from '../../../store/store';
 import {deleteDialogAC, deleteMessageAC, disableDialogAC} from '../../../store/dialogs-reducer';
 import {useDispatch} from 'react-redux';
 import {Button, TextField} from '@material-ui/core';
+import {removeFromFriendsAC} from '../../../store/friends-reducer';
 
 type MenuPropsType = {
     openMore: boolean
@@ -29,6 +30,7 @@ export const Menu = React.memo((props: MenuPropsType) => {
 
     const dispatch = useDispatch()
     const dialogs = useAppSelector((store) => store.dialogs)
+    const friends = useAppSelector((store) => store.friends)
 
     const closeMessages = useCallback(() => props.setCurrentUser(''), [props])
     const openMoreModal = useCallback(() => props.setOpenMore(!props.openMore), [props])
@@ -56,6 +58,7 @@ export const Menu = React.memo((props: MenuPropsType) => {
 
     const disableDialog = useCallback(() => {
         dispatch(disableDialogAC(props.currentUser))
+        dispatch(removeFromFriendsAC(props.currentUser))
         props.setOpenMore(false)
     }, [dispatch, props])
 
@@ -70,7 +73,7 @@ export const Menu = React.memo((props: MenuPropsType) => {
                             <ArrowBackIosIcon fontSize={'small'}/>
                             <span>Close</span>
                         </div>
-                        <h3>{d.name}</h3>
+                        {friends.map(f => f.id === props.currentUser && <h3>{f.name}</h3>)}
                         <MoreHorizIcon onClick={openMoreModal} style={{cursor: 'pointer'}}/>
                         {
                             props.openMore && <div className={s.menu__openMore}>

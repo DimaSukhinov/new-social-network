@@ -1,6 +1,5 @@
 import React, {ChangeEvent, useCallback, useState} from 'react';
 import s from './Dialogs.module.scss';
-import avatar from '../../assets/images/avatar.jpg'
 import {useDispatch} from 'react-redux';
 import {useAppSelector} from '../../store/store';
 import {TextField} from '@material-ui/core';
@@ -11,11 +10,13 @@ import {
 } from '../../store/dialogs-reducer';
 import {Menu} from './menu/Menu';
 import BlockIcon from '@material-ui/icons/Block';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 export const Dialogs = React.memo(() => {
 
     const dispatch = useDispatch()
     const dialogs = useAppSelector((store) => store.dialogs)
+    const friends = useAppSelector((store) => store.friends)
 
     const [currentUser, setCurrentUser] = useState<string>('')
     const [messageText, setMessageText] = useState<string>('')
@@ -59,9 +60,9 @@ export const Dialogs = React.memo(() => {
         setSelectedMessages(selectedMessages - 1)
     }, [dispatch, selectedMessages])
 
-    let filteredUsers = dialogs.dialogs
+    let filteredUsers = friends
     if (searchUser) {
-        filteredUsers = dialogs.dialogs.filter(d => d.name.toLowerCase().includes(searchUser.toLowerCase()))
+        filteredUsers = friends.filter(f => f.name.toLowerCase().includes(searchUser.toLowerCase()))
     }
 
     let filteredMessages = dialogs.messages
@@ -77,13 +78,16 @@ export const Dialogs = React.memo(() => {
                                style={{margin: '5px 0 5px 10px'}} onChange={changeSearchUserHandler}/>
                 </div>
                 {
-                    filteredUsers.map(d => <div className={s.users__container} onClick={openMessages(d.userId)}>
-                        <div className={s.user}>
-                            <img src={avatar} alt="avatar"/>
-                            <div>
-                                <h3 className={s.user__name}>{d.name}</h3>
+                    filteredUsers.map(d => <div className={s.users__container} onClick={openMessages(d.id)}>
+                        {friends.map(f => f.id === d.id && <div className={s.user__container}>
+                            <div className={s.user}>
+                                <img src={f.img} alt="avatar"/>
+                                <div>
+                                    <h3 className={s.user__name}>{f.name}</h3>
+                                </div>
                             </div>
-                        </div>
+                            <MoreHorizIcon/>
+                        </div>)}
                     </div>)
                 }
             </div>

@@ -6,9 +6,10 @@
   border-radius: 4px;
 
   .dialogs__users {
-    min-width: 235px;
     border-radius: 4px;
     min-height: 550px;
+    max-height: 753px;
+    overflow-y: auto;
 
     .users__container {
       display: flex;
@@ -24,23 +25,29 @@
         border-bottom: 1px solid #909091;
       }
 
-      .user {
+      .user__container {
         display: flex;
-        align-items: center;
+        justify-content: space-between;
 
-        &:not(:last-child) {
-          margin-bottom: 10px;
-        }
+        .user {
+          display: flex;
+          align-items: center;
 
-        & img {
-          width: 50px;
-          border-radius: 50%;
-          margin-right: 10px;
-        }
+          &:not(:last-child) {
+            margin-bottom: 10px;
+          }
 
-        .user__name {
-          font-size: 16px;
-          font-weight: 400;
+          & img {
+            width: 85px;
+            border-radius: 50%;
+            margin-right: 10px;
+          }
+
+          .user__name {
+            font-size: 16px;
+            font-weight: 400;
+            margin-right: 50px;
+          }
         }
       }
     }
